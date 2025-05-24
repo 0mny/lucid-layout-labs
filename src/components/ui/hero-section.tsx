@@ -78,7 +78,7 @@ export function HeroSection() {
                                 <Link
                                     to="#"
                                     className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
-                                    <span className="text-foreground text-sm">Introducing Support for AI Models</span>
+                                    <span className="text-foreground text-sm">Introducing Desktop AI That Actually Works</span>
                                     <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
 
                                     <div className="bg-background group-hover:bg-muted size-6 overflow-hidden rounded-full duration-500">
@@ -94,10 +94,13 @@ export function HeroSection() {
                                 </Link>
                     
                                 <h1 className="mt-8 max-w-4xl mx-auto text-balance text-6xl md:text-7xl lg:mt-16 xl:text-[5.25rem] font-bold bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-                                    Modern Solutions for Customer Engagement
+                                    Finally, an AI that actually does the work
                                 </h1>
-                                <p className="mx-auto mt-8 max-w-2xl text-balance text-lg text-muted-foreground">
-                                    Highly customizable components for building modern websites and applications that look and feel the way you mean it.
+                                <p className="mx-auto mt-8 max-w-3xl text-balance text-lg text-muted-foreground">
+                                    Browse is the first on-device, screen-aware, voice-driven agent that runs your computer for you—not just talks about it. While others build hardware gadgets and passive memory apps, we built the missing piece: an open, stoppable, plugin-ready overlay that can click, type, and reason across any desktop application.
+                                </p>
+                                <p className="mx-auto mt-4 max-w-2xl text-balance text-xl font-medium text-foreground">
+                                    Stop describing. Start doing.
                                 </p>
                             </AnimatedGroup>
 
@@ -120,7 +123,7 @@ export function HeroSection() {
                                         size="lg"
                                         className="rounded-xl px-5 text-base">
                                         <Link to="/auth">
-                                            <span className="text-nowrap">Start Building</span>
+                                            <span className="text-nowrap">Get Early Access</span>
                                         </Link>
                                     </Button>
                                 </div>
@@ -130,7 +133,7 @@ export function HeroSection() {
                                     variant="ghost"
                                     className="h-11 rounded-xl px-5">
                                     <Link to="#features">
-                                        <span className="text-nowrap">Request a demo</span>
+                                        <span className="text-nowrap">See Browse in Action</span>
                                     </Link>
                                 </Button>
                             </AnimatedGroup>
@@ -158,14 +161,14 @@ export function HeroSection() {
                                 <img
                                     className="bg-background aspect-[15/8] relative hidden rounded-2xl dark:block"
                                     src="https://tailark.com//_next/image?url=%2Fmail2.png&w=3840&q=75"
-                                    alt="app screen"
+                                    alt="Browse AI in action"
                                     width="2700"
                                     height="1440"
                                 />
                                 <img
                                     className="border-border/25 aspect-[15/8] relative rounded-2xl border dark:hidden"
                                     src="https://tailark.com/_next/image?url=%2Fmail2-light.png&w=3840&q=75"
-                                    alt="app screen"
+                                    alt="Browse AI in action"
                                     width="2700"
                                     height="1440"
                                 />
@@ -180,7 +183,7 @@ export function HeroSection() {
                         <Link
                             to="/"
                             className="block text-sm duration-150 hover:opacity-75">
-                            <span> Meet Our Customers</span>
+                            <span>Trusted by Forward-Thinking Teams</span>
                             <ChevronRight className="ml-1 inline-block size-3" />
                         </Link>
                     </div>
