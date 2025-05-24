@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
@@ -14,9 +12,16 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { user, signIn, signUp, hasProfile } = useAuth();
+  const {
+    user,
+    signIn,
+    signUp,
+    hasProfile
+  } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
 
   // Redirect if already logged in
   useEffect(() => {
@@ -28,7 +33,6 @@ const Auth = () => {
       }
     }
   }, [user, hasProfile, navigate]);
-
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignUp && password !== confirmPassword) {
@@ -42,7 +46,9 @@ const Auth = () => {
     setIsLoading(true);
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password, fullName);
+        const {
+          error
+        } = await signUp(email, password, fullName);
         if (error) {
           toast({
             title: 'Signup Failed',
@@ -57,7 +63,9 @@ const Auth = () => {
           // Navigation will be handled by useEffect when user state changes
         }
       } else {
-        const { error } = await signIn(email, password);
+        const {
+          error
+        } = await signIn(email, password);
         if (error) {
           toast({
             title: 'Login Failed',
@@ -82,18 +90,12 @@ const Auth = () => {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+  return <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo and Title */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <img 
-              src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" 
-              alt="Logo" 
-              className="h-12 w-12 object-contain"
-            />
+            <img src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" alt="Logo" className="h-12 w-12 object-contain" />
           </div>
           <h1 className="text-2xl font-medium text-white mb-2">
             {isSignUp ? 'Sign up' : 'Sign in'}
@@ -101,94 +103,50 @@ const Auth = () => {
         </div>
 
         {/* Auth Form */}
-        <div className="bg-zinc-900 rounded-lg p-8 border border-zinc-800">
+        <div className="rounded-lg p-8 border border-zinc-800 bg-[#191919]">
           <form onSubmit={handleEmailAuth} className="space-y-6">
-            {isSignUp && (
-              <div className="space-y-2">
+            {isSignUp && <div className="space-y-2">
                 <Label htmlFor="fullName" className="text-white text-sm">
                   Full Name
                 </Label>
-                <Input 
-                  id="fullName" 
-                  type="text" 
-                  placeholder="Your full name" 
-                  value={fullName} 
-                  onChange={e => setFullName(e.target.value)} 
-                  required 
-                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                />
-              </div>
-            )}
+                <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+              </div>}
             
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white text-sm">
                 Email
               </Label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="Your email address" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)} 
-                required 
-                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-              />
+              <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-white text-sm">
                 Password
               </Label>
-              <Input 
-                id="password" 
-                type="password" 
-                placeholder="Your password" 
-                value={password} 
-                onChange={e => setPassword(e.target.value)} 
-                required 
-                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-              />
+              <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
             </div>
 
-            {isSignUp && (
-              <div className="space-y-2">
+            {isSignUp && <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-white text-sm">
                   Confirm Password
                 </Label>
-                <Input 
-                  id="confirmPassword" 
-                  type="password" 
-                  placeholder="Confirm your password" 
-                  value={confirmPassword} 
-                  onChange={e => setConfirmPassword(e.target.value)} 
-                  required 
-                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                />
-              </div>
-            )}
+                <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+              </div>}
 
-            <Button 
-              type="submit" 
-              className="w-full bg-white text-black hover:bg-zinc-200" 
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
               {isLoading ? 'Please wait...' : 'Continue'}
             </Button>
           </form>
 
           {/* Toggle Sign Up/Sign In */}
           <div className="mt-6 text-center">
-            <button 
-              type="button" 
-              onClick={() => {
-                setIsSignUp(!isSignUp);
-                setEmail('');
-                setPassword('');
-                setFullName('');
-                setConfirmPassword('');
-              }} 
-              className="text-zinc-400 hover:text-white text-sm transition-colors"
-            >
+            <button type="button" onClick={() => {
+            setIsSignUp(!isSignUp);
+            setEmail('');
+            setPassword('');
+            setFullName('');
+            setConfirmPassword('');
+          }} className="text-zinc-400 hover:text-white text-sm transition-colors">
               {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
             </button>
           </div>
@@ -201,8 +159,6 @@ const Auth = () => {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Auth;
