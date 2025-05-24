@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -8,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, XCircle, Loader2, User } from 'lucide-react';
-
 const DesktopCallback = () => {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<'auth' | 'loading' | 'success' | 'error'>('auth');
@@ -20,18 +18,21 @@ const DesktopCallback = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { user, signIn, signUp } = useAuth();
-  const { toast } = useToast();
+  const {
+    user,
+    signIn,
+    signUp
+  } = useAuth();
+  const {
+    toast
+  } = useToast();
   const navigate = useNavigate();
-
   const appId = searchParams.get('app_id') || 'default';
-
   useEffect(() => {
     if (user) {
       setStatus('auth'); // Show confirmation for logged in users
     }
   }, [user]);
-
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignUp && password !== confirmPassword) {
@@ -42,11 +43,12 @@ const DesktopCallback = () => {
       });
       return;
     }
-    
     setIsLoading(true);
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password, fullName);
+        const {
+          error
+        } = await signUp(email, password, fullName);
         if (error) {
           toast({
             title: 'Signup Failed',
@@ -60,7 +62,9 @@ const DesktopCallback = () => {
           });
         }
       } else {
-        const { error } = await signIn(email, password);
+        const {
+          error
+        } = await signIn(email, password);
         if (error) {
           toast({
             title: 'Login Failed',
@@ -84,45 +88,44 @@ const DesktopCallback = () => {
       setIsLoading(false);
     }
   };
-
   const generateDesktopToken = async () => {
     setStatus('loading');
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+      const {
+        data: {
+          session
+        }
+      } = await supabase.auth.getSession();
       if (!session) {
         setStatus('error');
         setError('No active session found');
         return;
       }
-
       const response = await fetch('/functions/v1/generate-desktop-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`,
+          'Authorization': `Bearer ${session.access_token}`
         },
-        body: JSON.stringify({ app_id: appId }),
+        body: JSON.stringify({
+          app_id: appId
+        })
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.error || 'Failed to generate token');
       }
-
       setToken(data.token);
       setStatus('success');
 
       // Attempt to redirect to custom protocol
       const customProtocolUrl = `browse://auth-callback?token=${data.token}&app_id=${appId}`;
-      
+
       // Try to open the custom protocol
       window.location.href = customProtocolUrl;
-
       toast({
         title: 'Authentication Successful',
-        description: 'Your desktop app should now be authenticated.',
+        description: 'Your desktop app should now be authenticated.'
       });
     } catch (err) {
       console.error('Error generating desktop token:', err);
@@ -131,70 +134,55 @@ const DesktopCallback = () => {
       toast({
         title: 'Authentication Failed',
         description: 'Failed to authenticate desktop app.',
-        variant: 'destructive',
+        variant: 'destructive'
       });
     }
   };
-
   const copyToken = () => {
     navigator.clipboard.writeText(token);
     toast({
       title: 'Token Copied',
-      description: 'JWT token copied to clipboard',
+      description: 'JWT token copied to clipboard'
     });
   };
-
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     toast({
       title: 'Signed Out',
-      description: 'You have been signed out successfully.',
+      description: 'You have been signed out successfully.'
     });
   };
-
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+  return <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <img 
-              src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" 
-              alt="Logo" 
-              className="h-12 w-12 object-contain"
-            />
+            <img src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" alt="Logo" className="h-12 w-12 object-contain" />
           </div>
           <h1 className="text-2xl font-medium text-white mb-2">
             Desktop App Authentication
           </h1>
         </div>
 
-        <div className="bg-zinc-900 rounded-lg p-8 border border-zinc-800">
+        <div className="rounded-lg p-8 border border-zinc-800 bg-[1#191919] bg-[#191919]">
           {/* User is logged in - show confirmation */}
-          {user && status === 'auth' && (
-            <div className="text-center">
+          {user && status === 'auth' && <div className="text-center">
               <User className="h-8 w-8 text-white mx-auto mb-4" />
               <p className="text-white mb-2">Continue with this account?</p>
               <p className="text-zinc-400 text-sm mb-6">{user.email}</p>
               <p className="text-zinc-400 text-sm mb-6">App ID: {appId}</p>
               
               <div className="space-y-3">
-                <Button onClick={generateDesktopToken} className="w-full">
+                <Button onClick={generateDesktopToken} className="w-full bg-white text-black">
                   Yes, Continue
                 </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={handleSignOut}
-                  className="w-full"
-                >
+                <Button variant="outline" onClick={handleSignOut} className="w-full bg-red-950 hover:bg-red-800 text-white">
                   Sign Out
                 </Button>
               </div>
-            </div>
-          )}
+            </div>}
 
           {/* User is not logged in - show auth form */}
-          {!user && status === 'auth' && (
-            <div>
+          {!user && status === 'auth' && <div>
               <div className="text-center mb-6">
                 <p className="text-white mb-2">
                   {isSignUp ? 'Create account for desktop app' : 'Sign in for desktop app'}
@@ -203,109 +191,61 @@ const DesktopCallback = () => {
               </div>
 
               <form onSubmit={handleAuth} className="space-y-6">
-                {isSignUp && (
-                  <div className="space-y-2">
+                {isSignUp && <div className="space-y-2">
                     <Label htmlFor="fullName" className="text-white text-sm">
                       Full Name
                     </Label>
-                    <Input 
-                      id="fullName" 
-                      type="text" 
-                      placeholder="Your full name" 
-                      value={fullName} 
-                      onChange={e => setFullName(e.target.value)} 
-                      required 
-                      className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                    />
-                  </div>
-                )}
+                    <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                  </div>}
                 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-white text-sm">
                     Email
                   </Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="Your email address" 
-                    value={email} 
-                    onChange={e => setEmail(e.target.value)} 
-                    required 
-                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                  />
+                  <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-white text-sm">
                     Password
                   </Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
-                    placeholder="Your password" 
-                    value={password} 
-                    onChange={e => setPassword(e.target.value)} 
-                    required 
-                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                  />
+                  <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
                 </div>
 
-                {isSignUp && (
-                  <div className="space-y-2">
+                {isSignUp && <div className="space-y-2">
                     <Label htmlFor="confirmPassword" className="text-white text-sm">
                       Confirm Password
                     </Label>
-                    <Input 
-                      id="confirmPassword" 
-                      type="password" 
-                      placeholder="Confirm your password" 
-                      value={confirmPassword} 
-                      onChange={e => setConfirmPassword(e.target.value)} 
-                      required 
-                      className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
-                    />
-                  </div>
-                )}
+                    <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                  </div>}
 
-                <Button 
-                  type="submit" 
-                  className="w-full bg-white text-black hover:bg-zinc-200" 
-                  disabled={isLoading}
-                >
+                <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
                   {isLoading ? 'Please wait...' : 'Continue'}
                 </Button>
               </form>
 
               <div className="mt-6 text-center">
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    setIsSignUp(!isSignUp);
-                    setEmail('');
-                    setPassword('');
-                    setFullName('');
-                    setConfirmPassword('');
-                  }} 
-                  className="text-zinc-400 hover:text-white text-sm transition-colors"
-                >
+                <button type="button" onClick={() => {
+              setIsSignUp(!isSignUp);
+              setEmail('');
+              setPassword('');
+              setFullName('');
+              setConfirmPassword('');
+            }} className="text-zinc-400 hover:text-white text-sm transition-colors">
                   {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
                 </button>
               </div>
-            </div>
-          )}
+            </div>}
 
           {/* Loading state */}
-          {status === 'loading' && (
-            <div className="text-center">
+          {status === 'loading' && <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
               <p className="text-white mb-2">Generating authentication token...</p>
               <p className="text-zinc-400 text-sm">App ID: {appId}</p>
-            </div>
-          )}
+            </div>}
 
           {/* Success state */}
-          {status === 'success' && (
-            <div className="text-center">
+          {status === 'success' && <div className="text-center">
               <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-4" />
               <p className="text-white mb-4">Authentication successful!</p>
               <p className="text-zinc-400 text-sm mb-6">
@@ -324,20 +264,14 @@ const DesktopCallback = () => {
                 <Button onClick={copyToken} className="w-full">
                   Copy Token
                 </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => navigate('/')}
-                  className="w-full"
-                >
+                <Button variant="outline" onClick={() => navigate('/')} className="w-full">
                   Return to App
                 </Button>
               </div>
-            </div>
-          )}
+            </div>}
 
           {/* Error state */}
-          {status === 'error' && (
-            <div className="text-center">
+          {status === 'error' && <div className="text-center">
               <XCircle className="h-8 w-8 text-red-500 mx-auto mb-4" />
               <p className="text-white mb-2">Authentication failed</p>
               <p className="text-red-400 text-sm mb-6">{error}</p>
@@ -346,16 +280,11 @@ const DesktopCallback = () => {
                 <Button onClick={generateDesktopToken} className="w-full">
                   Retry
                 </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setStatus('auth')}
-                  className="w-full"
-                >
+                <Button variant="outline" onClick={() => setStatus('auth')} className="w-full">
                   Back to Login
                 </Button>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
 
         <div className="mt-8 text-center">
@@ -364,8 +293,6 @@ const DesktopCallback = () => {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default DesktopCallback;
