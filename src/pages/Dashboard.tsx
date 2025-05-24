@@ -3,7 +3,6 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import Header from '@/components/Header';
 import { PersonalInfoSection } from '@/components/dashboard/PersonalInfoSection';
 import { DataSharingSection } from '@/components/dashboard/DataSharingSection';
 import { SubscriptionSection } from '@/components/dashboard/SubscriptionSection';
@@ -41,8 +40,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      <div className="container mx-auto px-4 py-8 mt-16">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
           
