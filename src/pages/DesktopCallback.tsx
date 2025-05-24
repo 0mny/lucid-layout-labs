@@ -4,31 +4,89 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2, User } from 'lucide-react';
 
 const DesktopCallback = () => {
   const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [status, setStatus] = useState<'auth' | 'loading' | 'success' | 'error'>('auth');
   const [token, setToken] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const { user, signIn, signUp } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const appId = searchParams.get('app_id') || 'default';
 
   useEffect(() => {
-    if (!user) {
-      // Redirect to auth page if not logged in
-      navigate('/auth?redirect=/desktop-callback' + window.location.search);
+    if (user) {
+      setStatus('auth'); // Show confirmation for logged in users
+    }
+  }, [user]);
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSignUp && password !== confirmPassword) {
+      toast({
+        title: 'Passwords do not match',
+        description: 'Please make sure your passwords match.',
+        variant: 'destructive'
+      });
       return;
     }
-
-    generateDesktopToken();
-  }, [user, appId]);
+    
+    setIsLoading(true);
+    try {
+      if (isSignUp) {
+        const { error } = await signUp(email, password, fullName);
+        if (error) {
+          toast({
+            title: 'Signup Failed',
+            description: error.message,
+            variant: 'destructive'
+          });
+        } else {
+          toast({
+            title: 'Account Created!',
+            description: 'Your account has been created successfully.'
+          });
+        }
+      } else {
+        const { error } = await signIn(email, password);
+        if (error) {
+          toast({
+            title: 'Login Failed',
+            description: error.message,
+            variant: 'destructive'
+          });
+        } else {
+          toast({
+            title: 'Welcome back!',
+            description: 'You have been successfully logged in.'
+          });
+        }
+      }
+    } catch (error) {
+      toast({
+        title: isSignUp ? 'Signup Failed' : 'Login Failed',
+        description: 'An unexpected error occurred.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const generateDesktopToken = async () => {
+    setStatus('loading');
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -86,6 +144,14 @@ const DesktopCallback = () => {
     });
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: 'Signed Out',
+      description: 'You have been signed out successfully.',
+    });
+  };
+
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -103,6 +169,132 @@ const DesktopCallback = () => {
         </div>
 
         <div className="bg-zinc-900 rounded-lg p-8 border border-zinc-800">
+          {/* User is logged in - show confirmation */}
+          {user && status === 'auth' && (
+            <div className="text-center">
+              <User className="h-8 w-8 text-white mx-auto mb-4" />
+              <p className="text-white mb-2">Continue with this account?</p>
+              <p className="text-zinc-400 text-sm mb-6">{user.email}</p>
+              <p className="text-zinc-400 text-sm mb-6">App ID: {appId}</p>
+              
+              <div className="space-y-3">
+                <Button onClick={generateDesktopToken} className="w-full">
+                  Yes, Continue
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleSignOut}
+                  className="w-full"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* User is not logged in - show auth form */}
+          {!user && status === 'auth' && (
+            <div>
+              <div className="text-center mb-6">
+                <p className="text-white mb-2">
+                  {isSignUp ? 'Create account for desktop app' : 'Sign in for desktop app'}
+                </p>
+                <p className="text-zinc-400 text-sm">App ID: {appId}</p>
+              </div>
+
+              <form onSubmit={handleAuth} className="space-y-6">
+                {isSignUp && (
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className="text-white text-sm">
+                      Full Name
+                    </Label>
+                    <Input 
+                      id="fullName" 
+                      type="text" 
+                      placeholder="Your full name" 
+                      value={fullName} 
+                      onChange={e => setFullName(e.target.value)} 
+                      required 
+                      className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
+                    />
+                  </div>
+                )}
+                
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-white text-sm">
+                    Email
+                  </Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="Your email address" 
+                    value={email} 
+                    onChange={e => setEmail(e.target.value)} 
+                    required 
+                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-white text-sm">
+                    Password
+                  </Label>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    placeholder="Your password" 
+                    value={password} 
+                    onChange={e => setPassword(e.target.value)} 
+                    required 
+                    className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
+                  />
+                </div>
+
+                {isSignUp && (
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword" className="text-white text-sm">
+                      Confirm Password
+                    </Label>
+                    <Input 
+                      id="confirmPassword" 
+                      type="password" 
+                      placeholder="Confirm your password" 
+                      value={confirmPassword} 
+                      onChange={e => setConfirmPassword(e.target.value)} 
+                      required 
+                      className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" 
+                    />
+                  </div>
+                )}
+
+                <Button 
+                  type="submit" 
+                  className="w-full bg-white text-black hover:bg-zinc-200" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Please wait...' : 'Continue'}
+                </Button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setIsSignUp(!isSignUp);
+                    setEmail('');
+                    setPassword('');
+                    setFullName('');
+                    setConfirmPassword('');
+                  }} 
+                  className="text-zinc-400 hover:text-white text-sm transition-colors"
+                >
+                  {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Loading state */}
           {status === 'loading' && (
             <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
@@ -111,6 +303,7 @@ const DesktopCallback = () => {
             </div>
           )}
 
+          {/* Success state */}
           {status === 'success' && (
             <div className="text-center">
               <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-4" />
@@ -142,6 +335,7 @@ const DesktopCallback = () => {
             </div>
           )}
 
+          {/* Error state */}
           {status === 'error' && (
             <div className="text-center">
               <XCircle className="h-8 w-8 text-red-500 mx-auto mb-4" />
@@ -154,10 +348,10 @@ const DesktopCallback = () => {
                 </Button>
                 <Button 
                   variant="outline" 
-                  onClick={() => navigate('/auth')}
+                  onClick={() => setStatus('auth')}
                   className="w-full"
                 >
-                  Sign In Again
+                  Back to Login
                 </Button>
               </div>
             </div>
