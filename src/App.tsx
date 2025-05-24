@@ -10,6 +10,7 @@ import Pricing from "./pages/Pricing";
 import Solutions from "./pages/Solutions";
 import About from "./pages/About";
 import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
 import DesktopCallback from "./pages/DesktopCallback";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/desktop-callback" element={<DesktopCallback />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

@@ -162,6 +162,45 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          created_at: string
+          data_sharing_analytics: boolean | null
+          data_sharing_marketing: boolean | null
+          data_sharing_third_party: boolean | null
+          id: string
+          notifications_desktop: boolean | null
+          notifications_email: boolean | null
+          privacy_level: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_sharing_analytics?: boolean | null
+          data_sharing_marketing?: boolean | null
+          data_sharing_third_party?: boolean | null
+          id?: string
+          notifications_desktop?: boolean | null
+          notifications_email?: boolean | null
+          privacy_level?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data_sharing_analytics?: boolean | null
+          data_sharing_marketing?: boolean | null
+          data_sharing_third_party?: boolean | null
+          id?: string
+          notifications_desktop?: boolean | null
+          notifications_email?: boolean | null
+          privacy_level?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
