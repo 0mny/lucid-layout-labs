@@ -11,14 +11,18 @@ import { SettingsSection } from '@/components/dashboard/SettingsSection';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Dashboard = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, hasProfile } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
+    if (!loading) {
+      if (!user) {
+        navigate('/auth');
+      } else if (hasProfile === false) {
+        navigate('/finish-profile');
+      }
     }
-  }, [user, loading, navigate]);
+  }, [user, loading, hasProfile, navigate]);
 
   if (loading) {
     return (
@@ -31,7 +35,7 @@ const Dashboard = () => {
     );
   }
 
-  if (!user) {
+  if (!user || hasProfile === false) {
     return null;
   }
 

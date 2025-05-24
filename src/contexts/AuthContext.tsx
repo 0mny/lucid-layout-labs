@@ -7,9 +7,11 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  hasProfile: boolean | null;
   signUp: (email: string, password: string, fullName: string) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<any>;
+  checkProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,14 +28,55 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
+
+  const checkProfile = async () => {
+    if (!user) {
+      setHasProfile(null);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', user.id)
+        .single();
+
+      setHasProfile(!!data && !error);
+    } catch (error) {
+      console.error('Error checking profile:', error);
+      setHasProfile(false);
+    }
+  };
 
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        
+        if (session?.user) {
+          // Check profile after user is set
+          setTimeout(async () => {
+            try {
+              const { data, error } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('id', session.user.id)
+                .single();
+
+              setHasProfile(!!data && !error);
+            } catch (error) {
+              console.error('Error checking profile:', error);
+              setHasProfile(false);
+            }
+          }, 0);
+        } else {
+          setHasProfile(null);
+        }
       }
     );
 
@@ -42,6 +85,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      if (session?.user) {
+        // Check profile for initial session
+        setTimeout(async () => {
+          try {
+            const { data, error } = await supabase
+              .from('profiles')
+              .select('id')
+              .eq('id', session.user.id)
+              .single();
+
+            setHasProfile(!!data && !error);
+          } catch (error) {
+            console.error('Error checking profile:', error);
+            setHasProfile(false);
+          }
+        }, 0);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -77,9 +138,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     session,
     loading,
+    hasProfile,
     signUp,
     signIn,
     signOut,
+    checkProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

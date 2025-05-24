@@ -11,6 +11,7 @@ import Solutions from "./pages/Solutions";
 import About from "./pages/About";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import FinishProfile from "./pages/FinishProfile";
 import DesktopCallback from "./pages/DesktopCallback";
 import NotFound from "./pages/NotFound";
 
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/finish-profile" element={<FinishProfile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/desktop-callback" element={<DesktopCallback />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
