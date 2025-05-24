@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -58,7 +57,18 @@ export const SubscriptionSection = () => {
         throw subError;
       }
 
-      setCurrentSubscription(subscriptionData);
+      if (subscriptionData) {
+        const transformedSubscription: UserSubscription = {
+          ...subscriptionData,
+          subscription_plans: {
+            ...subscriptionData.subscription_plans,
+            features: Array.isArray(subscriptionData.subscription_plans.features) 
+              ? subscriptionData.subscription_plans.features as string[]
+              : []
+          }
+        };
+        setCurrentSubscription(transformedSubscription);
+      }
 
       // Fetch all available plans
       const { data: plansData, error: plansError } = await supabase
@@ -69,7 +79,13 @@ export const SubscriptionSection = () => {
 
       if (plansError) throw plansError;
 
-      setAvailablePlans(plansData || []);
+      if (plansData) {
+        const transformedPlans: SubscriptionPlan[] = plansData.map(plan => ({
+          ...plan,
+          features: Array.isArray(plan.features) ? plan.features as string[] : []
+        }));
+        setAvailablePlans(transformedPlans);
+      }
     } catch (error) {
       console.error('Error fetching subscription data:', error);
       toast({

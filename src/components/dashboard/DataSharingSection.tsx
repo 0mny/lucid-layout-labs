@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -58,7 +57,7 @@ export const DataSharingSection = () => {
           data_sharing_third_party: data.data_sharing_third_party,
           notifications_email: data.notifications_email,
           notifications_desktop: data.notifications_desktop,
-          privacy_level: data.privacy_level,
+          privacy_level: (data.privacy_level as 'minimal' | 'standard' | 'enhanced') || 'standard',
         });
       }
     } catch (error) {
