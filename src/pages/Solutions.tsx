@@ -2,11 +2,13 @@
 import { Features } from "@/components/ui/features-11";
 import { Features as AdvancedFeatures } from "@/components/ui/features";
 import { Footer } from "@/components/ui/footer";
+import { Header } from "@/components/ui/header";
 import { Github, Twitter, Hexagon } from "lucide-react";
 
 const Solutions = () => {
   return (
     <div className="min-h-screen">
+      <Header />
       <div className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">Our Solutions</h1>

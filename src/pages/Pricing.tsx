@@ -1,6 +1,7 @@
 
 import { PricingSection } from "@/components/ui/pricing-section";
 import { Footer } from "@/components/ui/footer";
+import { Header } from "@/components/ui/header";
 import { Github, Twitter, Hexagon } from "lucide-react";
 
 const PAYMENT_FREQUENCIES = ["monthly", "yearly"];
@@ -81,6 +82,7 @@ const TIERS = [
 const Pricing = () => {
   return (
     <div className="min-h-screen">
+      <Header />
       <div className="container mx-auto px-4 py-20">
         <PricingSection
           title="Simple Pricing"
