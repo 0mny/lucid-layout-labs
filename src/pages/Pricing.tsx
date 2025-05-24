@@ -1,6 +1,7 @@
 
 import { PricingSection } from "@/components/ui/pricing-section";
 import { Footer } from "@/components/ui/footer";
+import Header from "@/components/Header";
 import { Github, Twitter, Hexagon } from "lucide-react";
 
 const PAYMENT_FREQUENCIES = ["monthly", "yearly"];
@@ -81,6 +82,7 @@ const TIERS = [
 const Pricing = () => {
   return (
     <div className="min-h-screen">
+      <Header />
       <div className="container mx-auto px-4 py-20">
         <PricingSection
           title="Simple Pricing"
@@ -91,7 +93,7 @@ const Pricing = () => {
       </div>
       <Footer
         logo={<Hexagon className="h-10 w-10" />}
-        brandName="Tailark"
+        brandName="Browse"
         socialLinks={[
           {
             icon: <Twitter className="h-5 w-5" />,
@@ -105,17 +107,16 @@ const Pricing = () => {
           },
         ]}
         mainLinks={[
-          { href: "/products", label: "Products" },
+          { href: "/solutions", label: "Solutions" },
           { href: "/about", label: "About" },
-          { href: "/blog", label: "Blog" },
-          { href: "/contact", label: "Contact" },
+          { href: "/auth", label: "Sign In" },
         ]}
         legalLinks={[
           { href: "/privacy", label: "Privacy" },
           { href: "/terms", label: "Terms" },
         ]}
         copyright={{
-          text: "© 2024 Tailark",
+          text: "© 2024 Browse",
           license: "All rights reserved",
         }}
       />
