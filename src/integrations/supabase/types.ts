@@ -36,6 +36,36 @@ export type Database = {
         }
         Relationships: []
       }
+      desktop_sessions: {
+        Row: {
+          app_id: string
+          created_at: string
+          expires_at: string
+          id: string
+          jwt_token: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          app_id: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          jwt_token: string
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          app_id?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          jwt_token?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -187,7 +217,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_expired_desktop_sessions: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
