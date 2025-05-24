@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, XCircle, Loader2, User } from 'lucide-react';
+
 const DesktopCallback = () => {
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState<'auth' | 'loading' | 'success' | 'error'>('auth');
@@ -163,7 +164,7 @@ const DesktopCallback = () => {
           </h1>
         </div>
 
-        <div className="rounded-lg p-8 border border-zinc-800 bg-[1#191919] bg-[#191919]">
+        <div className="rounded-lg p-8 border border-zinc-800 bg-[#191919]">
           {/* User is logged in - show confirmation */}
           {user && status === 'auth' && <div className="text-center">
               <User className="h-8 w-8 text-white mx-auto mb-4" />
@@ -172,10 +173,10 @@ const DesktopCallback = () => {
               <p className="text-zinc-400 text-sm mb-6">App ID: {appId}</p>
               
               <div className="space-y-3">
-                <Button onClick={generateDesktopToken} className="w-full bg-white text-black">
+                <Button onClick={generateDesktopToken} className="w-full bg-white text-black hover:bg-zinc-200">
                   Yes, Continue
                 </Button>
-                <Button variant="outline" onClick={handleSignOut} className="w-full bg-red-950 hover:bg-red-800 text-white">
+                <Button variant="outline" onClick={handleSignOut} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
                   Sign Out
                 </Button>
               </div>
@@ -195,28 +196,28 @@ const DesktopCallback = () => {
                     <Label htmlFor="fullName" className="text-white text-sm">
                       Full Name
                     </Label>
-                    <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                    <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
                   </div>}
                 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-white text-sm">
                     Email
                   </Label>
-                  <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                  <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-white text-sm">
                     Password
                   </Label>
-                  <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                  <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
                 </div>
 
                 {isSignUp && <div className="space-y-2">
                     <Label htmlFor="confirmPassword" className="text-white text-sm">
                       Confirm Password
                     </Label>
-                    <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                    <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
                   </div>}
 
                 <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
@@ -231,7 +232,7 @@ const DesktopCallback = () => {
               setPassword('');
               setFullName('');
               setConfirmPassword('');
-            }} className="text-zinc-400 hover:text-white text-sm transition-colors">
+            }} className="text-zinc-500 hover:text-white text-sm transition-colors">
                   {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
                 </button>
               </div>
@@ -253,18 +254,18 @@ const DesktopCallback = () => {
                 If it doesn't open automatically, you can copy the token below.
               </p>
               
-              <div className="bg-zinc-800 p-4 rounded border mb-4">
-                <p className="text-xs text-zinc-400 mb-2">JWT Token:</p>
+              <div className="bg-black p-4 rounded border border-zinc-700 mb-4">
+                <p className="text-xs text-zinc-500 mb-2">JWT Token:</p>
                 <p className="text-white text-sm font-mono break-all">
                   {token.substring(0, 50)}...
                 </p>
               </div>
 
               <div className="space-y-3">
-                <Button onClick={copyToken} className="w-full">
+                <Button onClick={copyToken} className="w-full bg-white text-black hover:bg-zinc-200">
                   Copy Token
                 </Button>
-                <Button variant="outline" onClick={() => navigate('/')} className="w-full">
+                <Button variant="outline" onClick={() => navigate('/')} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
                   Return to App
                 </Button>
               </div>
@@ -277,10 +278,10 @@ const DesktopCallback = () => {
               <p className="text-red-400 text-sm mb-6">{error}</p>
               
               <div className="space-y-3">
-                <Button onClick={generateDesktopToken} className="w-full">
+                <Button onClick={generateDesktopToken} className="w-full bg-white text-black hover:bg-zinc-200">
                   Retry
                 </Button>
-                <Button variant="outline" onClick={() => setStatus('auth')} className="w-full">
+                <Button variant="outline" onClick={() => setStatus('auth')} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
                   Back to Login
                 </Button>
               </div>
@@ -288,11 +289,12 @@ const DesktopCallback = () => {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-zinc-500 text-sm">
+          <p className="text-zinc-600 text-sm">
             Desktop App Authentication Flow
           </p>
         </div>
       </div>
     </div>;
 };
+
 export default DesktopCallback;

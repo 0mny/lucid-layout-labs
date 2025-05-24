@@ -109,31 +109,31 @@ const Auth = () => {
                 <Label htmlFor="fullName" className="text-white text-sm">
                   Full Name
                 </Label>
-                <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
               </div>}
             
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white text-sm">
                 Email
               </Label>
-              <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+              <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-white text-sm">
                 Password
               </Label>
-              <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+              <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
             </div>
 
             {isSignUp && <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-white text-sm">
                   Confirm Password
                 </Label>
-                <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600" />
+                <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
               </div>}
 
-            <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200 border-0" disabled={isLoading}>
               {isLoading ? 'Please wait...' : 'Continue'}
             </Button>
           </form>
@@ -146,7 +146,7 @@ const Auth = () => {
             setPassword('');
             setFullName('');
             setConfirmPassword('');
-          }} className="text-zinc-400 hover:text-white text-sm transition-colors">
+          }} className="text-zinc-500 hover:text-white text-sm transition-colors">
               {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
             </button>
           </div>
@@ -154,7 +154,7 @@ const Auth = () => {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-zinc-500 text-sm">
+          <p className="text-zinc-600 text-sm">
             Terms of Service and Privacy Policy
           </p>
         </div>

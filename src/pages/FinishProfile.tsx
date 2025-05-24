@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -102,7 +101,7 @@ const FinishProfile = () => {
         </div>
 
         {/* Profile Form */}
-        <div className="bg-zinc-900 rounded-lg p-8 border border-zinc-800">
+        <div className="bg-[#191919] rounded-lg p-8 border border-zinc-800">
           <form onSubmit={handleCreateProfile} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white text-sm">
@@ -113,7 +112,7 @@ const FinishProfile = () => {
                 type="email" 
                 value={user.email || ''} 
                 disabled 
-                className="bg-zinc-800 border-zinc-700 text-zinc-400 placeholder:text-zinc-500 opacity-75" 
+                className="bg-black border-zinc-700 text-zinc-500 placeholder:text-zinc-600 opacity-75" 
               />
             </div>
 
@@ -128,7 +127,7 @@ const FinishProfile = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600"
+                className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500"
               />
             </div>
 
@@ -143,7 +142,7 @@ const FinishProfile = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400 focus:border-zinc-600 focus:ring-zinc-600"
+                className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500"
               />
             </div>
 
@@ -159,7 +158,7 @@ const FinishProfile = () => {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-zinc-500 text-sm">
+          <p className="text-zinc-600 text-sm">
             Terms of Service and Privacy Policy
           </p>
         </div>
