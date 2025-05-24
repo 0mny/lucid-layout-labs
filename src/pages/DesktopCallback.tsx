@@ -153,11 +153,16 @@ const DesktopCallback = () => {
       description: 'You have been signed out successfully.'
     });
   };
-  return <div className="min-h-screen bg-black flex items-center justify-center px-4">
+  return (
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <img src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" alt="Logo" className="h-12 w-12 object-contain" />
+            <img 
+              src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" 
+              alt="Logo" 
+              className="h-12 w-12 object-contain"
+            />
           </div>
           <h1 className="text-2xl font-medium text-white mb-2">
             Desktop App Authentication
@@ -166,135 +171,211 @@ const DesktopCallback = () => {
 
         <div className="rounded-lg p-8 border border-zinc-800 bg-[#191919]">
           {/* User is logged in - show confirmation */}
-          {user && status === 'auth' && <div className="text-center">
+          {user && status === 'auth' && (
+            <div className="text-center">
               <User className="h-8 w-8 text-white mx-auto mb-4" />
               <p className="text-white mb-2">Continue with this account?</p>
-              <p className="text-zinc-400 text-sm mb-6">{user.email}</p>
-              <p className="text-zinc-400 text-sm mb-6">App ID: {appId}</p>
+              <p className="text-[#9E9E9E] text-sm mb-6">{user.email}</p>
+              <p className="text-[#9E9E9E] text-sm mb-6">App ID: {appId}</p>
               
               <div className="space-y-3">
-                <Button onClick={generateDesktopToken} className="w-full bg-white text-black hover:bg-zinc-200">
+                <Button 
+                  onClick={generateDesktopToken} 
+                  className="w-full bg-white text-black hover:bg-zinc-200"
+                >
                   Yes, Continue
                 </Button>
-                <Button variant="outline" onClick={handleSignOut} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
+                <Button 
+                  variant="outline" 
+                  onClick={handleSignOut} 
+                  className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600"
+                >
                   Sign Out
                 </Button>
               </div>
-            </div>}
+            </div>
+          )}
 
           {/* User is not logged in - show auth form */}
-          {!user && status === 'auth' && <div>
+          {!user && status === 'auth' && (
+            <div>
               <div className="text-center mb-6">
                 <p className="text-white mb-2">
                   {isSignUp ? 'Create account for desktop app' : 'Sign in for desktop app'}
                 </p>
-                <p className="text-zinc-400 text-sm">App ID: {appId}</p>
+                <p className="text-[#9E9E9E] text-sm">App ID: {appId}</p>
               </div>
 
               <form onSubmit={handleAuth} className="space-y-6">
-                {isSignUp && <div className="space-y-2">
+                {isSignUp && (
+                  <div className="space-y-2">
                     <Label htmlFor="fullName" className="text-white text-sm">
                       Full Name
                     </Label>
-                    <Input id="fullName" type="text" placeholder="Your full name" value={fullName} onChange={e => setFullName(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
-                  </div>}
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="Your full name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                      className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
+                    />
+                  </div>
+                )}
                 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-white text-sm">
                     Email
                   </Label>
-                  <Input id="email" type="email" placeholder="Your email address" value={email} onChange={e => setEmail(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
+                  />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-white text-sm">
                     Password
                   </Label>
-                  <Input id="password" type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
+                  />
                 </div>
 
-                {isSignUp && <div className="space-y-2">
+                {isSignUp && (
+                  <div className="space-y-2">
                     <Label htmlFor="confirmPassword" className="text-white text-sm">
                       Confirm Password
                     </Label>
-                    <Input id="confirmPassword" type="password" placeholder="Confirm your password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500" />
-                  </div>}
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      placeholder="Confirm your password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      required
+                      className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
+                    />
+                  </div>
+                )}
 
-                <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={isLoading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-white text-black hover:bg-zinc-200" 
+                  disabled={isLoading}
+                >
                   {isLoading ? 'Please wait...' : 'Continue'}
                 </Button>
               </form>
 
               <div className="mt-6 text-center">
-                <button type="button" onClick={() => {
-              setIsSignUp(!isSignUp);
-              setEmail('');
-              setPassword('');
-              setFullName('');
-              setConfirmPassword('');
-            }} className="text-zinc-500 hover:text-white text-sm transition-colors">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSignUp(!isSignUp);
+                    setEmail('');
+                    setPassword('');
+                    setFullName('');
+                    setConfirmPassword('');
+                  }}
+                  className="text-[#9E9E9E] hover:text-white text-sm transition-colors"
+                >
                   {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
                 </button>
               </div>
-            </div>}
+            </div>
+          )}
 
           {/* Loading state */}
-          {status === 'loading' && <div className="text-center">
+          {status === 'loading' && (
+            <div className="text-center">
               <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
               <p className="text-white mb-2">Generating authentication token...</p>
-              <p className="text-zinc-400 text-sm">App ID: {appId}</p>
-            </div>}
+              <p className="text-[#9E9E9E] text-sm">App ID: {appId}</p>
+            </div>
+          )}
 
           {/* Success state */}
-          {status === 'success' && <div className="text-center">
+          {status === 'success' && (
+            <div className="text-center">
               <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-4" />
               <p className="text-white mb-4">Authentication successful!</p>
-              <p className="text-zinc-400 text-sm mb-6">
+              <p className="text-[#9E9E9E] text-sm mb-6">
                 Your desktop app should automatically receive the authentication token.
                 If it doesn't open automatically, you can copy the token below.
               </p>
               
-              <div className="bg-black p-4 rounded border border-zinc-700 mb-4">
-                <p className="text-xs text-zinc-500 mb-2">JWT Token:</p>
+              <div className="bg-[#131313] p-4 rounded border border-[#434343] mb-4">
+                <p className="text-xs text-[#9E9E9E] mb-2">JWT Token:</p>
                 <p className="text-white text-sm font-mono break-all">
                   {token.substring(0, 50)}...
                 </p>
               </div>
 
               <div className="space-y-3">
-                <Button onClick={copyToken} className="w-full bg-white text-black hover:bg-zinc-200">
+                <Button 
+                  onClick={copyToken} 
+                  className="w-full bg-white text-black hover:bg-zinc-200"
+                >
                   Copy Token
                 </Button>
-                <Button variant="outline" onClick={() => navigate('/')} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/')} 
+                  className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600"
+                >
                   Return to App
                 </Button>
               </div>
-            </div>}
+            </div>
+          )}
 
           {/* Error state */}
-          {status === 'error' && <div className="text-center">
+          {status === 'error' && (
+            <div className="text-center">
               <XCircle className="h-8 w-8 text-red-500 mx-auto mb-4" />
               <p className="text-white mb-2">Authentication failed</p>
               <p className="text-red-400 text-sm mb-6">{error}</p>
               
               <div className="space-y-3">
-                <Button onClick={generateDesktopToken} className="w-full bg-white text-black hover:bg-zinc-200">
+                <Button 
+                  onClick={generateDesktopToken} 
+                  className="w-full bg-white text-black hover:bg-zinc-200"
+                >
                   Retry
                 </Button>
-                <Button variant="outline" onClick={() => setStatus('auth')} className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setStatus('auth')} 
+                  className="w-full bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-600"
+                >
                   Back to Login
                 </Button>
               </div>
-            </div>}
+            </div>
+          )}
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-zinc-600 text-sm">
+          <p className="text-[#9E9E9E] text-sm">
             Desktop App Authentication Flow
           </p>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 
 export default DesktopCallback;

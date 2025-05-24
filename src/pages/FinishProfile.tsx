@@ -95,7 +95,7 @@ const FinishProfile = () => {
           <h1 className="text-2xl font-medium text-white mb-2">
             Complete Your Profile
           </h1>
-          <p className="text-zinc-400 text-sm">
+          <p className="text-[#9E9E9E] text-sm">
             Let's finish setting up your account
           </p>
         </div>
@@ -112,7 +112,7 @@ const FinishProfile = () => {
                 type="email" 
                 value={user.email || ''} 
                 disabled 
-                className="bg-black border-zinc-700 text-zinc-500 placeholder:text-zinc-600 opacity-75" 
+                className="bg-[#131313] border-[#434343] text-[#9E9E9E] placeholder:text-[#9E9E9E] opacity-75" 
               />
             </div>
 
@@ -127,7 +127,7 @@ const FinishProfile = () => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500"
+                className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
               />
             </div>
 
@@ -142,7 +142,7 @@ const FinishProfile = () => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                className="bg-black border-zinc-700 text-white placeholder:text-zinc-500 focus:border-zinc-500 focus:ring-zinc-500"
+                className="bg-[#131313] border-[#434343] text-white placeholder:text-[#9E9E9E] focus:border-[#434343] focus:ring-[#434343]"
               />
             </div>
 
@@ -158,7 +158,7 @@ const FinishProfile = () => {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-zinc-600 text-sm">
+          <p className="text-[#9E9E9E] text-sm">
             Terms of Service and Privacy Policy
           </p>
         </div>
