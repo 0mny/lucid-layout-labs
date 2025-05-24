@@ -4,8 +4,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Hexagon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Hexagon } from 'lucide-react';
+
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
@@ -91,7 +92,11 @@ const Auth = () => {
         {/* Logo and Title */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <Hexagon className="h-12 w-12 text-white" />
+            <img 
+              src="/lovable-uploads/0698279a-9918-4c6a-9e5d-5177e1aae3f9.png" 
+              alt="Logo" 
+              className="h-12 w-12 object-contain"
+            />
           </div>
           <h1 className="text-2xl font-medium text-white mb-2">
             {isSignUp ? 'Sign up' : 'Sign in'}
@@ -167,4 +172,5 @@ const Auth = () => {
       </div>
     </div>;
 };
+
 export default Auth;
