@@ -17,7 +17,8 @@ const Auth = () => {
     user,
     signIn,
     signUp,
-    hasProfile
+    hasProfile,
+    session
   } = useAuth();
   const navigate = useNavigate();
   const {
@@ -34,6 +35,27 @@ const Auth = () => {
       }
     }
   }, [user, hasProfile, navigate]);
+
+  // Function to redirect to desktop app with JWT token
+  const redirectToDesktopApp = (jwtToken: string) => {
+    // 1. Encode the JWT token to handle special characters
+    const encodedToken = encodeURIComponent(jwtToken);
+    
+    // 2. Create the custom protocol URL with the token
+    const desktopAppUrl = `browse://auth-callback?token=${encodedToken}`;
+    
+    // 3. Redirect the browser to this URL
+    window.location.href = desktopAppUrl;
+    
+    // 4. Optional: Show a message in case the app doesn't open
+    setTimeout(() => {
+      toast({
+        title: 'Desktop App Redirect',
+        description: 'If the desktop app didn\'t open, please make sure it\'s installed and try again.',
+      });
+    }, 2000);
+  };
+
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSignUp && password !== confirmPassword) {
@@ -78,6 +100,11 @@ const Auth = () => {
             title: 'Welcome back!',
             description: 'You have been successfully logged in.'
           });
+          
+          // Check if we should redirect to desktop app
+          if (session?.access_token) {
+            redirectToDesktopApp(session.access_token);
+          }
           // Navigation will be handled by useEffect when user state changes
         }
       }
@@ -91,6 +118,7 @@ const Auth = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
@@ -200,6 +228,9 @@ const Auth = () => {
               {isSignUp ? "Already have an account? Sign in" : "Don't have an account? Sign up"}
             </button>
           </div>
+
+          {/* Desktop App Redirect Message */}
+          <div id="app-redirect-message" className="mt-4 text-center text-[#9E9E9E] text-sm"></div>
         </div>
 
         {/* Footer */}
